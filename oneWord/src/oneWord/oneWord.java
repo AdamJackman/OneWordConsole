@@ -28,9 +28,9 @@ public class oneWord {
 				 * Register: 
 				 * Exit: 
 				 */
-				
-				logIn();
-				
+				System.out.println("Not Logged In While");
+				//logIn();
+				register();
 
 				
 			}
@@ -57,12 +57,12 @@ public class oneWord {
 	//Used Functions
 	
 	public static void logIn(){
-		System.out.println("Not Logged In While");
-		//The User is not logged in
+		//Gather the user information
 		System.out.println("Enter Username");
 		username = uin.nextLine();
 		System.out.println("Enter Password");
 		password = uin.nextLine();				
+		
 		//Attempt user log in
 		//TODO: Possibly encrypt the password before it is sent to the db
 		User me = udao.login(username, password);
@@ -73,6 +73,26 @@ public class oneWord {
 		}
 		else{
 			//The User is now logged in and the data is stored in the me variable
+			logged = true;
+		}
+	}
+	
+	public static void register(){
+		//Gather the user information
+		System.out.println("Enter Username");
+		username = uin.nextLine();
+		System.out.println("Enter Password");
+		password = uin.nextLine();	
+		
+		//Attempt user register
+		//TODO: Security checks on passwords, undecided
+		User me = udao.registerUser(username, password);
+		if (me == null){
+			//Register unsuccessful - do not change the logged variable
+			System.out.println("Username already exists - please retry");
+		}
+		else{
+			System.out.println("Welcome to oneWord - You are now registered and logged in");
 			logged = true;
 		}
 	}
