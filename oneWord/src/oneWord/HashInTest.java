@@ -12,8 +12,9 @@ public class HashInTest implements HashDAO{
 		System.out.println("Hash Test");
 	}
 	//Get the existing hashing
-	public void getHash(User user, String site){
+	public String getHash(User user, String site){
 		System.out.println("Hash Test");
+		return "abcdef";
 	}
 	
 	

@@ -3,18 +3,20 @@ package oneWord;
 import java.util.Scanner;
 
 public class oneWord {
+	//Initial setup
+	public static UserDAO udao = new UserInTest();
+	public static HashDAO hdao = new HashInTest();
+	public static Scanner uin = new Scanner(System.in);
+	public static String username, password;
+	public static boolean logged;
+	
 	//The main method will be ran here
 	public static void main(String args[]){
 		
-		//Instantiate the type of DAO
-		UserDAO udao = new UserInTest();
-		HashDAO hdao = new HashInTest();
-		Scanner uin = new Scanner(System.in);
-		String username, password;
-		
-		//Create the interface
+		logged = false;
 		//TODO: Create some sort of GUI
-		boolean logged = false;
+		//boolean logged = false;
+		
 		System.out.println("Enter the program");
 		while (true){
 			if(!logged){
@@ -27,30 +29,9 @@ public class oneWord {
 				 * Exit: 
 				 */
 				
-				System.out.println("Not Logged In While");
-				//The User is not logged in
-				System.out.println("Enter Username");
-				username = uin.nextLine();
-				System.out.println("Enter Password");
-				password = uin.nextLine();
-				//close the reader
-
+				logIn();
 				
-				System.out.println("The variables recieved are: " + username + " " + password);
-				
-				//Attempt user log in
-				User me = udao.login(username, password);
-				if (me == null){
-					//The Log in was unsuccessful - do not change the logged variable
-					System.out.println("Log in unsuccessful - ");
-					//TODO: Add counters to measure attempts on a certain username?
-				}
-				else{
-					//Artifical switch
-					//The User is now logged in and the data is stored in the me variable
-					logged = true;
 
-				}
 				
 			}
 			else{
@@ -69,7 +50,32 @@ public class oneWord {
 				break;
 			}
 		}
-		
+
 		
 	}
+	
+	//Used Functions
+	
+	public static void logIn(){
+		System.out.println("Not Logged In While");
+		//The User is not logged in
+		System.out.println("Enter Username");
+		username = uin.nextLine();
+		System.out.println("Enter Password");
+		password = uin.nextLine();				
+		//Attempt user log in
+		//TODO: Possibly encrypt the password before it is sent to the db
+		User me = udao.login(username, password);
+		if (me == null){
+			//The Log in was unsuccessful - do not change the logged variable
+			System.out.println("Log in unsuccessful");
+			//TODO: Add security to watch for multiple attempts
+		}
+		else{
+			//The User is now logged in and the data is stored in the me variable
+			logged = true;
+		}
+	}
+
+	
 }

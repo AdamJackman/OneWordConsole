@@ -7,6 +7,6 @@ public interface HashDAO {
 	//Create a new hashing if there is not one already
 	public void makeHash(User user, String site);
 	//Get the existing hashing
-	public void getHash(User user, String site);
+	public String getHash(User user, String site);
 	
 }
