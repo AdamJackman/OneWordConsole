@@ -55,7 +55,7 @@ public class HashInDatabase implements HashDAO{
 			String randStore = randWordGen(20);
 			//Insert the store salt into the table
 			Connection con = dbcon();
-			//TODO: Unhardcode this length later
+			//TODO: Unhardcode this length later, user might want a specific length
 			String insertQuery = "INSERT INTO saltstore(userid, site, salt, len) VALUES (?, ?, ?, 12);";
 			PreparedStatement insertPS = con.prepareStatement(insertQuery);
 			insertPS.setInt(1, user.getUID());
@@ -73,6 +73,7 @@ public class HashInDatabase implements HashDAO{
 		}
 		System.out.println("Critical Hash Failure");	
 	}
+	
 	//Get the existing hashing
 	public String getHash(User user, String site){
 		
@@ -131,7 +132,7 @@ public class HashInDatabase implements HashDAO{
 	    //Problem here is that the encryption returns bytes.
 	    //I have altered my random word generator to produce a String using the bytes
 	    String s = new String(encrypted);	    
-	    String randoAlphabet = "abcdeghijklmnopqrstuvwxyz!@#$%^&*(){}|:123456789";
+	    String randoAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdeghijklmnopqrstuvwxyz=-!@#$%^&*(){}|:123456789";
 		int modlen = randoAlphabet.length();
 	    String finishedPass = "";
 	    for (int i=0; i<s.length(); i++){
@@ -140,8 +141,6 @@ public class HashInDatabase implements HashDAO{
 			char curr = randoAlphabet.charAt(modspot);
 			finishedPass = finishedPass + curr;
 	    }
-	    System.out.println("Here is your password: (copy and paste into the password box)");
-	    System.out.println(finishedPass);
 
 		return finishedPass;
 	}
