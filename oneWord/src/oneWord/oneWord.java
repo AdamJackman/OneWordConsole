@@ -65,11 +65,10 @@ public class oneWord {
 				command = command.trim();
 				//TODO: Strip the command, case insensitive that sort of thing
 				if (command.equals("access")){
-					System.out.println("accessing");
 					access();
 				}
 				else if (command.equals("logout")){
-					System.out.println("logging out");
+					System.out.println("Successfully Logged Out");
 					//Remove information
 					// TODO: Consider calling a function to clear the console
 					username = "";
@@ -113,7 +112,13 @@ public class oneWord {
 		//Gather the user information
 		System.out.println("Enter Username");
 		username = uin.nextLine();
-	
+		
+		//check that the user is not already in the table
+		boolean exists = udao.checkUser(username);
+		if(exists){
+			System.out.println("The requested username is already in use");
+			return;
+		}
 		//Attempt user register
 		me = udao.registerUser(username);
 		if (me == null){
@@ -150,7 +155,7 @@ public class oneWord {
 				String hash = hdao.getHash(me, sitename);
 				System.out.println("Enter your word");
 				password = uin.nextLine();
-				//TODO: is it possible to hide the input characters
+				//TODO: is it possible to hide the input characters? find out.
 				
 				String hashed = hdao.getPassword(me, sitename, hash, password);
 				//Some spaces to make things clearer
