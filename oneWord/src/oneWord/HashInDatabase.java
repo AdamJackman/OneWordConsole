@@ -1,5 +1,6 @@
 package oneWord;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -111,11 +112,38 @@ public class HashInDatabase implements HashDAO{
 	//create the password with the hash
 	public String getPassword(User user, String site, String hash, String password){
 		
+		//Take the salt from and the password and create the real hash
+		String toEnc = password + hash;
+				
+		System.out.println(toEnc);
 		
-		
-		
-		
-		return "";
+		//String x = toEnc;
+		//Using Sha1 for the encryption
+		java.security.MessageDigest d = null;
+	    try {
+			d = java.security.MessageDigest.getInstance("SHA-1");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+	    d.reset();
+	    d.update(toEnc.getBytes());
+	    byte [] encrypted = d.digest();
+	    //Problem here is that the encryption returns bytes.
+	    //I have altered my random word generator to produce a String using the bytes
+	    String s = new String(encrypted);	    
+	    String randoAlphabet = "abcdeghijklmnopqrstuvwxyz!@#$%^&*(){}|:123456789";
+		int modlen = randoAlphabet.length();
+	    String finishedPass = "";
+	    for (int i=0; i<s.length(); i++){
+	    	int val = (int)s.charAt(i);
+	    	int modspot = val % modlen;
+			char curr = randoAlphabet.charAt(modspot);
+			finishedPass = finishedPass + curr;
+	    }
+	    System.out.println("Here is your password: (copy and paste into the password box)");
+	    System.out.println(finishedPass);
+
+		return finishedPass;
 	}
 
 	
