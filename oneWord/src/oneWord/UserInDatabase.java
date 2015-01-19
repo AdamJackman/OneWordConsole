@@ -17,10 +17,7 @@ public class UserInDatabase implements UserDAO {
 		Connection con = null;
 		try{
 			Class.forName("org.postgresql.Driver");
-			//con = DriverManager.getConnection("jdbc:postgresql://oneword.cmtfz6kl9wdd.us-east-1.rds.amazonaws.com:5432/database?tcpKeepAlive=true");
-			//con = DriverManager.getConnection("jdbc:postgresql://oneword.cmtfz6kl9wdd.us-east-1.rds.amazonaws.com:5432/?user=jackmana&password=pscmazilcsg&tcpKeepAlive=true");
 			con = DriverManager.getConnection("jdbc:postgresql://oneword.cmtfz6kl9wdd.us-east-1.rds.amazonaws.com:5432/postgres?user=jackmana&password=pscmazilcsg");
-			System.out.println("looks good");
 		}
 		catch(ClassNotFoundException e){
 			if (DEBUG){
@@ -35,23 +32,20 @@ public class UserInDatabase implements UserDAO {
 			con = null;
 		}
 		//Connection created, continue with login
-		
-		
-		//First check if the user is already in the database
-		//SELECT * FROM user WHERE email= email
 		try{
+			//TODO: Currently not checking password. Not sure if want one yet
 			String existQuery = "SELECT * FROM users WHERE username=?;";
 			PreparedStatement existPS = con.prepareStatement(existQuery);
 			existPS.setString(1, username);
 			ResultSet rs = existPS.executeQuery();
 			while (rs.next()){
-				//TODO: Change this to a password match
-				System.out.println();
-				System.out.println(rs.getString("username"));
+				//TODO: Change this to a password match??
 				if (rs.getString("username").equals(username)){
-					//TODO: change the functionality to return a user
+					int uid = rs.getInt("userid");
 					con.close();
-					return null; // user must exist, so return null
+					//return the User information
+					
+					return new User(username, password, uid);
 				}
 			}
 			rs.close();
@@ -62,14 +56,9 @@ public class UserInDatabase implements UserDAO {
 				System.err.println("SQLException: " + e.getMessage());
 			}
 		}
-		
-		
-		
-		
-		
-		//closing the con before the return
+		//No match
 		con = null;
-		return new User("adam", "jackman", 1);
+		return null;
 	}
 	
 	//register the user with a user name and a password
