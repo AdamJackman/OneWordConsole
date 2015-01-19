@@ -17,22 +17,36 @@ public class oneWord {
 		//TODO: Create some sort of GUI
 		//boolean logged = false;
 		
-		System.out.println("Enter the program");
+		System.out.println("----- ONE WORD -----");
 		while (true){
-			if(!logged){
-				
-				//TODO: Present the user the choice to Log in or Register, or exit I guess.
+			if(!logged){				
 				/**
 				 * Possible commands: 
-				 * Log in: 
-				 * Register: 
-				 * Exit: 
+				 * 	Log in: Just logs in 
+				 * 	Register: Adds the new user and then logs in 
+				 * 	Exit: Quits the program
 				 */
-				System.out.println("Not Logged In While");
-				//logIn();
-				register();
-
+				//
+				System.out.println("Please enter your command");
+				System.out.println("(login, register, exit)");
+				String command = uin.nextLine();
+				//TODO: Strip the command, case insensitive that sort of thing
 				
+				//Implement the functionality user requests
+				if (command.equals("login")){ 
+					logIn(); 
+				}
+				else if (command.equals("register")){ 
+					register(); 
+				}
+				else if (command.equals("exit")){
+					System.out.println("Thank you for using OneWord");
+					uin.close(); 
+					break; 
+				}
+				else { 
+					System.out.println("Unrecognised command"); 
+				}
 			}
 			else{
 				//The User is now logged in with data in the me variable
