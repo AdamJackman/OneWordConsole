@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class oneWord {
 	//Initial setup
-	public static UserDAO udao = new UserInTest();
+	public static UserDAO udao = new UserInDatabase();
 	public static HashDAO hdao = new HashInTest();
 	public static Scanner uin = new Scanner(System.in);
 	public static String username, password;
