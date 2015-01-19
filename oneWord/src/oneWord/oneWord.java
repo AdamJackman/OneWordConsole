@@ -5,7 +5,8 @@ import java.util.Scanner;
 public class oneWord {
 	//Initial setup
 	public static UserDAO udao = new UserInDatabase();
-	public static HashDAO hdao = new HashInTest();
+	//public static HashDAO hdao = new HashInTest();
+	public static HashDAO hdao = new HashInDatabase();
 	public static Scanner uin = new Scanner(System.in);
 	public static String username, password;
 	public static boolean logged;
@@ -55,9 +56,9 @@ public class oneWord {
 				
 				/**
 				 * Possible Commands:
-				 * access: Will use oneword and sitename to create the password hash
-				 * log out: simply logs out
-				 * exit: exits the while loop
+				 * Access: Will use oneword and sitename to create the password hash
+				 * Log out: simply logs out
+				 * Exit: exits the while loop
 				 */
 				System.out.println("Please enter your command");
 				System.out.println("(access, logout, exit)");
@@ -88,7 +89,7 @@ public class oneWord {
 		}//END WHILE
 	}//END MAIN
 	
-	//Used Functions
+	//Start Functions
 	public static void logIn(){
 		//Gather the user information
 		System.out.println("Enter Username");

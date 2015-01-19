@@ -2,38 +2,112 @@ package oneWord;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 
 public class HashInDatabase implements HashDAO{
 	
 	final static boolean DEBUG = true;
 	
 	public boolean isHash(User user, String site){
+		//Check that the user has a hash for the site
 		
-		
-		
-		
-		
-		return true;
+		//Make the connection		
+		Connection con = dbcon();
+		try{
+			String existQuery = "SELECT * FROM saltstore WHERE userid=? and site=?;";
+			PreparedStatement existPS = con.prepareStatement(existQuery);
+			//set the userid and site
+			existPS.setInt(1, user.getUID());
+			existPS.setString(2, site);
+			
+			ResultSet rs = existPS.executeQuery();
+			while (rs.next()){
+				// Extra safety layer - Keep till transactions 
+				if (rs.getString("site").equals(site)){
+					con.close();
+					rs.close();
+					existPS.close();
+					//return true as found
+					return true;
+				}
+			}
+			con.close();
+			rs.close();
+			existPS.close();
+		}
+		catch(SQLException e){
+			if (DEBUG){
+				System.err.println("SQLException: " + e.getMessage());
+			}
+		}
+		//No match
+		return false;
 	}
+	
 	//Create a new hashing if there is not one already
 	public void makeHash(User user, String site){
-		
-		
-		
-		
-		
-		
+		// Use a random word generator
+		try {			
+			String randStore = randWordGen(20);
+			//Insert the store salt into the table
+			Connection con = dbcon();
+			//TODO: Unhardcode this length later
+			String insertQuery = "INSERT INTO saltstore(userid, site, salt, len) VALUES (?, ?, ?, 12);";
+			PreparedStatement insertPS = con.prepareStatement(insertQuery);
+			insertPS.setInt(1, user.getUID());
+			insertPS.setString(2, site);
+			insertPS.setString(3, randStore);
+			insertPS.executeUpdate();
+			insertPS.close();
+			con.close();		
+			return;
+		}
+		catch(SQLException e){
+			if (DEBUG){
+				System.err.println("SQLException: " + e.getMessage());
+			}
+		}
+		System.out.println("Critical Hash Failure");	
 	}
 	//Get the existing hashing
 	public String getHash(User user, String site){
 		
-		
-		
-		
-		
-		return "";
+		//going to be quite similar to the get hash
+		//Make the connection		
+		Connection con = dbcon();
+		try{
+			String existQuery = "SELECT * FROM saltstore WHERE userid=? and site=?;";
+			PreparedStatement existPS = con.prepareStatement(existQuery);
+			//set the userid and site
+			existPS.setInt(1, user.getUID());
+			existPS.setString(2, site);
+			
+			ResultSet rs = existPS.executeQuery();
+			while (rs.next()){
+				// Extra safety layer - Keep till transactions
+				if (rs.getString("site").equals(site)){
+					String res = rs.getString("salt");
+					con.close();
+					rs.close();
+					existPS.close();
+					return res;
+				}
+			}
+			con.close();
+			rs.close();
+			existPS.close();
+		}
+		catch(SQLException e){
+			if (DEBUG){
+				System.err.println("SQLException: " + e.getMessage());
+			}
+		}
+		return null;
 	}
+
 	//create the password with the hash
 	public String getPassword(User user, String site, String hash, String password){
 		
@@ -66,5 +140,29 @@ public class HashInDatabase implements HashDAO{
 			con = null;
 			return con;
 		}
+	}
+	
+	
+	/**
+	 * Ok, lets make a random word generator:
+	 * len: What is the cap
+	 */
+	public String randWordGen(int len){
+		//Here are the possibilities
+		String randoAlphabet = "abcdeghijklmnopqrstuvwxyz!@#$%^&*(){}|:123456789";
+		int modlen = randoAlphabet.length();
+		
+		String randWord = "";
+		for(int i=0; i<len; i++){
+			//Make a random generator
+			Random generator = new Random();
+			//Big int modded 
+			//TODO: Not sure if this is better than a 0,48 rand or not, probably not
+			int spot = generator.nextInt(1000000);
+			int modspot = spot % modlen;
+			char curr = randoAlphabet.charAt(modspot);
+			randWord = randWord + curr;
+		}
+		return randWord;
 	}
 }

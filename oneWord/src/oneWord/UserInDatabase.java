@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class UserInDatabase implements UserDAO {
 	
-	public static boolean DEBUG = true;
+	final static boolean DEBUG = true;
 	
 	//log in the user matching the user name and password combination
 	public User login(String username){	
