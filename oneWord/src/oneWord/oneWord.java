@@ -98,12 +98,10 @@ public class oneWord {
 		username = uin.nextLine();				
 		
 		//Attempt user log in
-		//TODO: Possibly encrypt the password before it is sent to the db
 		me = udao.login(username);
 		if (me == null){
 			//The Log in was unsuccessful - do not change the logged variable
-			System.out.println("Log in unsuccessful");
-			//TODO: Add security to watch for multiple attempts
+			System.out.println("Log in unsuccessful - user does not exist");
 		}
 		else{
 			//The User is now logged in and the data is stored in the me variable
@@ -116,9 +114,7 @@ public class oneWord {
 		System.out.println("Enter Username");
 		username = uin.nextLine();
 	
-		
 		//Attempt user register
-		//TODO: Security checks on passwords, undecided
 		me = udao.registerUser(username);
 		if (me == null){
 			//Register unsuccessful - do not change the logged variable
@@ -139,7 +135,6 @@ public class oneWord {
 		//System.out.println("Enter Password");
 		//password = uin.nextLine();
 		
-		
 		System.out.println("Enter the site name");
 		String sitename = uin.nextLine();
 	
@@ -152,19 +147,33 @@ public class oneWord {
 			if(response.equals("yes")){
 				//proceed with the access call
 				hdao.makeHash(me, sitename);
-				String hashed = hdao.getHash(me, sitename);
+				String hash = hdao.getHash(me, sitename);
+				System.out.println("Enter your word");
+				password = uin.nextLine();
+				//TODO: is it possible to hide the input characters
+				
+				String hashed = hdao.getPassword(me, sitename, hash, password);
 				//Some spaces to make things clearer
 				System.out.println("\n\n Your Password is: " + hashed + "\n");
+				//sanitize just in case
+				hash = "";
 				hashed = "";
 			}
-			//else let the call end
+			else{
+				return;
+			}
 		}
 		else{
 			//There is already a hash so simply get it
-			String hashed = hdao.getHash(me, sitename);
+			String hash = hdao.getHash(me, sitename);
+			System.out.println("Enter your word");
+			password = uin.nextLine();
 			//Some spaces to make things clearer
+			String hashed = hdao.getPassword(me, sitename, hash, password);
 			System.out.println("\n\n Your Password is: " + hashed + "\n");
+			//sanitize just in case
+			hash = "";
 			hashed = "";
-		}
+		}		
 	}
 }

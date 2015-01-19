@@ -8,5 +8,7 @@ public interface HashDAO {
 	public void makeHash(User user, String site);
 	//Get the existing hashing
 	public String getHash(User user, String site);
+	//create the password with the hash
+	public String getPassword(User user, String site, String hash, String password);
 	
 }

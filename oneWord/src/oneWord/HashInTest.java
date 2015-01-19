@@ -17,5 +17,10 @@ public class HashInTest implements HashDAO{
 		return "abcdef";
 	}
 	
+	public String getPassword(User user, String site, String hash, String password){
+		System.out.println("Hash Test");
+		return "abcdef";
+	}
+	
 	
 }

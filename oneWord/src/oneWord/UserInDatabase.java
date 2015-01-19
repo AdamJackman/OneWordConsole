@@ -10,7 +10,6 @@ public class UserInDatabase implements UserDAO {
 	
 	public static boolean DEBUG = true;
 	
-	
 	//log in the user matching the user name and password combination
 	public User login(String username){	
 		//Make the connection
