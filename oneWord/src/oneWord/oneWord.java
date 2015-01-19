@@ -95,13 +95,11 @@ public class oneWord {
 	public static void logIn(){
 		//Gather the user information
 		System.out.println("Enter Username");
-		username = uin.nextLine();
-		System.out.println("Enter Password");
-		password = uin.nextLine();				
+		username = uin.nextLine();				
 		
 		//Attempt user log in
 		//TODO: Possibly encrypt the password before it is sent to the db
-		me = udao.login(username, password);
+		me = udao.login(username);
 		if (me == null){
 			//The Log in was unsuccessful - do not change the logged variable
 			System.out.println("Log in unsuccessful");
@@ -117,12 +115,11 @@ public class oneWord {
 		//Gather the user information
 		System.out.println("Enter Username");
 		username = uin.nextLine();
-		System.out.println("Enter Password");
-		password = uin.nextLine();	
+	
 		
 		//Attempt user register
 		//TODO: Security checks on passwords, undecided
-		me = udao.registerUser(username, password);
+		me = udao.registerUser(username);
 		if (me == null){
 			//Register unsuccessful - do not change the logged variable
 			System.out.println("Username already exists - please retry");
@@ -138,6 +135,11 @@ public class oneWord {
 	 * it will get all the needed information from the HashDAO.
 	 */
 	public static void access(){
+		//going to need to place this in there somewhere
+		//System.out.println("Enter Password");
+		//password = uin.nextLine();
+		
+		
 		System.out.println("Enter the site name");
 		String sitename = uin.nextLine();
 	

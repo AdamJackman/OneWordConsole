@@ -12,7 +12,7 @@ public class UserInDatabase implements UserDAO {
 	
 	
 	//log in the user matching the user name and password combination
-	public User login(String username, String password){	
+	public User login(String username){	
 		//Make the connection
 		Connection con = null;
 		try{
@@ -45,7 +45,7 @@ public class UserInDatabase implements UserDAO {
 					con.close();
 					//return the User information
 					
-					return new User(username, password, uid);
+					return new User(username, uid);
 				}
 			}
 			rs.close();
@@ -62,14 +62,14 @@ public class UserInDatabase implements UserDAO {
 	}
 	
 	//register the user with a user name and a password
-	public User registerUser(String username, String password){
+	public User registerUser(String username){
 		System.out.println("Test");
 		
 		
 		
 		
 		
-		return new User("adam", "jackman", 1);
+		return new User("adam", 1);
 	}
 	
 	//Checks that the user exists in the database already
