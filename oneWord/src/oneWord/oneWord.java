@@ -55,9 +55,9 @@ public class oneWord {
 				
 				/**
 				 * Possible Commands:
-				 * access:
-				 * log out: 
-				 * exit: 
+				 * access: Will use oneword and sitename to create the password hash
+				 * log out: simply logs out
+				 * exit: exits the while loop
 				 */
 				System.out.println("Please enter your command");
 				System.out.println("(access, logout, exit)");
@@ -85,10 +85,8 @@ public class oneWord {
 					System.out.println("Unrecognised command"); 
 				}
 			}
-		}
-
-		
-	}
+		}//END WHILE
+	}//END MAIN
 	
 	//Used Functions
 	public static void logIn(){
@@ -136,9 +134,6 @@ public class oneWord {
 	 * it will get all the needed information from the HashDAO.
 	 */
 	public static void access(){
-		//going to need to place this in there somewhere
-		//System.out.println("Enter Password");
-		//password = uin.nextLine();
 		
 		System.out.println("Enter the site name");
 		String sitename = uin.nextLine();
