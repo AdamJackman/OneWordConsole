@@ -11,7 +11,7 @@ public class UserInTest implements UserDAO {
 	//register the user with a user name and a password
 	public User registerUser(String username, String password){
 		System.out.println("Test");
-		return new User("", "", 1);
+		return new User("adam", "jackman", 1);
 	}
 	
 	//Checks that the user exists in the database already
