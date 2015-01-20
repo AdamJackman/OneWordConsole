@@ -7,3 +7,5 @@
 
 <b>oneWord</b> works by encrypting the given password using a randomized salt that is saved in a database unique to
 the creator and the site it was created for. This allows consistency and safety for the user.
+
+<b> Use: Run oneWord.java </b>
