@@ -116,8 +116,6 @@ public class HashInDatabase implements HashDAO{
 		//Take the salt from and the password and create the real hash
 		String toEnc = password + hash;
 				
-		System.out.println(toEnc);
-		
 		//String x = toEnc;
 		//Using Sha1 for the encryption
 		java.security.MessageDigest d = null;
