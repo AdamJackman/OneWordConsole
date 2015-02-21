@@ -18,7 +18,6 @@ public class oneWord {
 		
 		logged = false;
 		//TODO: Create some sort of GUI
-		//boolean logged = false;
 		
 		System.out.println("----- ONE WORD -----");
 		while (true){
