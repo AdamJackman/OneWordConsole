@@ -8,6 +8,7 @@ public class oneWord {
 	//public static HashDAO hdao = new HashInTest();
 	public static HashDAO hdao = new HashInDatabase();
 	public static Scanner uin = new Scanner(System.in);
+	public static String [] bannedList= {";", "\'","-", "\\"};
 	public static String username, password;
 	public static boolean logged;
 	public static User me;
@@ -32,7 +33,10 @@ public class oneWord {
 				System.out.println("Please enter your command");
 				System.out.println("(login, register, exit)");
 				String command = uin.nextLine();
-				//TODO: Strip the command, case insensitive that sort of thing
+				//Strip the command of case insensitive and whitespace
+				command = command.toLowerCase();
+				command = command.replaceAll("\\s","");
+
 				
 				//Implement the functionality user requests
 				if (command.equals("login")){ 
@@ -63,8 +67,11 @@ public class oneWord {
 				System.out.println("Please enter your command");
 				System.out.println("(access, logout, exit)");
 				String command = uin.nextLine();
+				// sanitize input
 				command = command.trim();
-				//TODO: Strip the command, case insensitive that sort of thing
+				command = command.toLowerCase();
+				command = command.replaceAll("\\s","");
+				
 				if (command.equals("access")){
 					access();
 				}
@@ -109,8 +116,22 @@ public class oneWord {
 	
 	public static void register(){
 		//Gather the user information
-		System.out.println("Enter Username");
+		System.out.println("Enter Your Desired Username");
 		username = uin.nextLine();
+		
+		//Check that the username meets some basic parameters
+		if (username.length() > 24){
+			System.out.println("Usernames must not exceep 24 characters");
+			return;
+		}
+		
+		//Use the bannedList as a way to remove security risk characters or other undesirable inputs 
+		for(int i=0; i<bannedList.length; i++){
+			if (username.contains(bannedList[i])){
+				System.out.println("Illegal character: " + bannedList[i] + " detected");
+				return;
+			}
+		}
 		
 		//check that the user is not already in the table
 		boolean exists = udao.checkUser(username);
@@ -139,6 +160,14 @@ public class oneWord {
 		System.out.println("Enter the site name");
 		String sitename = uin.nextLine();
 	
+		//Use the bannedList as a way to remove security risk characters or other undesirable inputs 
+		for(int i=0; i<bannedList.length; i++){
+			if (sitename.contains(bannedList[i])){
+				System.out.println("Illegal character: " + bannedList[i] + " detected");
+				return;
+			}
+		}
+		
 		//Check whether the site currently has a hash
 		boolean exists = hdao.isHash(me, sitename);
 		if(!exists){
